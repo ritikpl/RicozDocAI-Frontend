@@ -61,110 +61,158 @@ function Dashboard() {
       title: "Total Documents",
       value: stats.totalDocuments,
       description: "All saved documents",
+      icon: "▣",
+      iconBg: "bg-[#F8F8F8]",
+      iconColor: "text-[#C21820]",
     },
     {
       title: "Processed",
       value: stats.processed,
       description: "Successfully extracted",
+      icon: "✓",
+      iconBg: "bg-[#E6F4EA]",
+      iconColor: "text-[#287D3C]",
     },
     {
       title: "Pending Review",
       value: stats.pendingReview,
       description: "Need your verification",
+      icon: "!",
+      iconBg: "bg-[#FEF7E0]",
+      iconColor: "text-[#9A6700]",
     },
   ]
 
   return (
     <DashboardLayout>
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      {/* Page Header */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-slate-900">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#C21820]">
+            Overview
+          </p>
+
+          <h1 className="mt-1.5 text-2xl font-semibold tracking-tight text-[#1A1A1A] sm:text-3xl">
             Dashboard
           </h1>
 
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1.5 text-sm text-[#666666]">
             Manage and review your documents with RicozDocAI.
           </p>
         </div>
 
         <a
           href="/upload"
-          className="w-full rounded-lg bg-blue-600 px-5 py-2.5 text-center text-sm font-medium text-white transition hover:bg-blue-700 sm:w-auto"
+          className="inline-flex w-full items-center justify-center rounded-lg bg-[#C21820] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#B81D1D] sm:w-auto"
         >
-          + Upload Document
+          <span className="mr-2 text-base">+</span>
+          Upload Document
         </a>
       </div>
 
-      <div className="mt-8 grid gap-5 md:grid-cols-3">
+      {/* Statistics */}
+      <div className="mt-6 grid gap-4 md:grid-cols-3">
         {statCards.map((stat) => (
           <div
             key={stat.title}
-            className="rounded-xl border border-gray-200 bg-white p-5"
+            className="rounded-xl border border-[#E0E0E0] bg-white p-5"
           >
-            <p className="text-sm font-medium text-slate-500">
-              {stat.title}
-            </p>
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-sm font-medium text-[#666666]">
+                  {stat.title}
+                </p>
 
-            <h2 className="mt-2 text-3xl font-semibold text-slate-900">
-              {loading ? "..." : stat.value}
-            </h2>
+                <h2 className="mt-2 text-3xl font-semibold tracking-tight text-[#1A1A1A]">
+                  {loading ? "..." : stat.value}
+                </h2>
+              </div>
 
-            <p className="mt-2 text-xs text-slate-400">
+              <div
+                className={`flex h-10 w-10 items-center justify-center rounded-lg ${stat.iconBg} ${stat.iconColor} text-sm font-bold`}
+              >
+                {stat.icon}
+              </div>
+            </div>
+
+            <p className="mt-2.5 text-xs text-[#888888]">
               {stat.description}
             </p>
           </div>
         ))}
       </div>
 
-      <div className="mt-8 rounded-xl border border-gray-200 bg-white">
-        <div className="border-b border-gray-200 px-5 py-4">
-          <h2 className="font-semibold text-slate-900">
-            Recent Documents
-          </h2>
+      {/* Recent Documents */}
+      <div className="mt-6 overflow-hidden rounded-xl border border-[#E0E0E0] bg-white">
+        {/* Section Header */}
+        <div className="flex flex-col gap-3 border-b border-[#E5E5E5] px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="text-base font-semibold text-[#1A1A1A]">
+              Recent Documents
+            </h2>
 
-          <p className="mt-1 text-sm text-slate-500">
-            Your recently uploaded documents will appear here.
-          </p>
+            <p className="mt-0.5 text-sm text-[#666666]">
+              Your recently uploaded documents.
+            </p>
+          </div>
+
+          {recentDocuments.length > 0 && (
+            <a
+              href="/documents"
+              className="text-sm font-semibold text-[#C21820] transition hover:text-[#B81D1D]"
+            >
+              View all →
+            </a>
+          )}
         </div>
 
+        {/* Empty State */}
         {recentDocuments.length === 0 ? (
-          <div className="flex min-h-52 items-center justify-center px-5">
+          <div className="flex min-h-56 items-center justify-center px-5 py-8">
             <div className="text-center">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 text-xl">
-                📄
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg border border-[#E0E0E0] bg-[#F8F8F8] text-lg text-[#C21820]">
+                ▣
               </div>
 
-              <h3 className="mt-4 font-medium text-slate-800">
+              <h3 className="mt-3 text-sm font-semibold text-[#1A1A1A]">
                 No documents yet
               </h3>
 
-              <p className="mt-1 text-sm text-slate-500">
+              <p className="mt-1 text-sm text-[#666666]">
                 Upload your first document to start.
               </p>
+
+              <a
+                href="/upload"
+                className="mt-4 inline-flex items-center rounded-lg bg-[#C21820] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#B81D1D]"
+              >
+                Upload Document
+              </a>
             </div>
           </div>
         ) : (
+          /* Documents Table */
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[700px] text-left">
-              <thead className="border-b border-gray-200 bg-gray-50">
+            <table className="w-full min-w-[720px] text-left">
+              <thead className="bg-[#F8F8F8]">
                 <tr>
-                  <th className="px-5 py-3 text-xs font-semibold uppercase text-slate-500">
+                  <th className="border-b border-[#E5E5E5] px-5 py-3 text-xs font-semibold uppercase tracking-wide text-[#666666]">
                     Document
                   </th>
 
-                  <th className="px-5 py-3 text-xs font-semibold uppercase text-slate-500">
+                  <th className="border-b border-[#E5E5E5] px-5 py-3 text-xs font-semibold uppercase tracking-wide text-[#666666]">
                     Vendor
                   </th>
 
-                  <th className="px-5 py-3 text-xs font-semibold uppercase text-slate-500">
+                  <th className="border-b border-[#E5E5E5] px-5 py-3 text-xs font-semibold uppercase tracking-wide text-[#666666]">
                     Invoice No.
                   </th>
 
-                  <th className="px-5 py-3 text-xs font-semibold uppercase text-slate-500">
+                  <th className="border-b border-[#E5E5E5] px-5 py-3 text-xs font-semibold uppercase tracking-wide text-[#666666]">
                     Date
                   </th>
 
-                  <th className="px-5 py-3 text-xs font-semibold uppercase text-slate-500">
+                  <th className="border-b border-[#E5E5E5] px-5 py-3 text-xs font-semibold uppercase tracking-wide text-[#666666]">
                     Total
                   </th>
                 </tr>
@@ -174,31 +222,44 @@ function Dashboard() {
                 {recentDocuments.map((document) => (
                   <tr
                     key={document._id}
-                    className="border-b border-gray-100 last:border-0"
+                    className="border-b border-[#EEEEEE] last:border-0 hover:bg-[#FAFAFA]"
                   >
-                    <td className="px-5 py-4">
-                      <p className="font-medium text-slate-800">
-                        {document.originalName || "Untitled"}
-                      </p>
+                    {/* Document */}
+                    <td className="px-5 py-3.5">
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#F8F8F8] text-sm text-[#C21820]">
+                          ▣
+                        </div>
 
-                      <p className="mt-1 text-xs text-slate-400">
-                        {document.documentType || "Document"}
-                      </p>
+                        <div className="min-w-0">
+                          <p className="max-w-[220px] truncate text-sm font-semibold text-[#1A1A1A]">
+                            {document.originalName || "Untitled"}
+                          </p>
+
+                          <p className="mt-0.5 text-xs text-[#888888]">
+                            {document.documentType || "Document"}
+                          </p>
+                        </div>
+                      </div>
                     </td>
 
-                    <td className="px-5 py-4 text-sm text-slate-600">
+                    {/* Vendor */}
+                    <td className="px-5 py-3.5 text-sm text-[#555555]">
                       {document.vendorName || "-"}
                     </td>
 
-                    <td className="px-5 py-4 text-sm text-slate-600">
+                    {/* Invoice */}
+                    <td className="px-5 py-3.5 text-sm text-[#555555]">
                       {document.invoiceNumber || "-"}
                     </td>
 
-                    <td className="px-5 py-4 text-sm text-slate-600">
+                    {/* Date */}
+                    <td className="px-5 py-3.5 text-sm text-[#555555]">
                       {document.date || "-"}
                     </td>
 
-                    <td className="px-5 py-4 text-sm font-medium text-slate-800">
+                    {/* Total */}
+                    <td className="px-5 py-3.5 text-sm font-semibold text-[#1A1A1A]">
                       {document.total || "-"}
                     </td>
                   </tr>
@@ -213,3 +274,6 @@ function Dashboard() {
 }
 
 export default Dashboard
+
+
+

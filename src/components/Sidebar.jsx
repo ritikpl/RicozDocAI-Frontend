@@ -8,7 +8,7 @@ function Sidebar() {
   ]
 
   return (
-    <aside className="w-64 min-h-[calc(100vh-4rem)] border-r border-gray-200 bg-white p-4">
+    <aside className="w-64 min-h-[calc(100vh-4rem)] border-r border-[#E5E5E5] bg-white p-4">
       <nav className="space-y-1">
         {navItems.map((item) => (
           <NavLink
@@ -17,8 +17,8 @@ function Sidebar() {
             className={({ isActive }) =>
               `block rounded-lg px-4 py-3 text-sm font-medium transition ${
                 isActive
-                  ? "bg-blue-50 text-blue-700"
-                  : "text-slate-600 hover:bg-gray-50 hover:text-slate-900"
+                  ? "bg-[#FDECEC] text-[#C21820]"
+                  : "text-[#555555] hover:bg-[#F8F8F8] hover:text-[#1A1A1A]"
               }`
             }
           >

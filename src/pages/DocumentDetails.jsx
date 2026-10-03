@@ -40,7 +40,7 @@ function DocumentDetails() {
     return (
       <DashboardLayout>
         <div className="flex min-h-64 items-center justify-center">
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-[#666666]">
             Loading document...
           </p>
         </div>
@@ -51,8 +51,8 @@ function DocumentDetails() {
   if (error) {
     return (
       <DashboardLayout>
-        <div className="rounded-xl border border-red-200 bg-red-50 p-5">
-          <p className="text-sm font-medium text-red-600">
+        <div className="rounded-xl border border-[#F1C4C4] bg-[#FDECEC] p-5">
+          <p className="text-sm font-medium text-[#C21820]">
             {error}
           </p>
         </div>
@@ -60,275 +60,287 @@ function DocumentDetails() {
     )
   }
 
+  const DetailItem = ({ label, value, strong = false }) => (
+    <div className="rounded-lg border border-[#EEEEEE] bg-[#FAFAFA] px-4 py-3">
+      <p className="text-xs font-semibold uppercase tracking-wide text-[#777777]">
+        {label}
+      </p>
+
+      <p
+        className={`mt-1.5 text-sm ${
+          strong
+            ? "font-semibold text-[#1A1A1A]"
+            : "text-[#555555]"
+        }`}
+      >
+        {value || "-"}
+      </p>
+    </div>
+  )
+
   return (
     <DashboardLayout>
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      {/* Header */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-slate-900">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#C21820]">
+            Document
+          </p>
+
+          <h1 className="mt-1.5 text-2xl font-semibold tracking-tight text-[#1A1A1A] sm:text-3xl">
             Document Details
           </h1>
 
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1.5 text-sm text-[#666666]">
             View the extracted information of this document.
           </p>
         </div>
 
         <button
           onClick={() => navigate("/documents")}
-          className="rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-gray-50"
+          className="w-full rounded-lg border border-[#D9D9D9] bg-white px-5 py-2.5 text-sm font-semibold text-[#555555] transition hover:border-[#C21820] hover:bg-[#FDECEC] hover:text-[#C21820] sm:w-auto"
         >
           Back to Documents
         </button>
       </div>
 
-      <div className="mt-8 max-w-3xl rounded-xl border border-gray-200 bg-white p-6">
-        <h2 className="text-lg font-semibold text-slate-800">
-          Extracted Information
-        </h2>
+      {/* Main Card */}
+      <div className="mt-6 max-w-5xl overflow-hidden rounded-xl border border-[#E0E0E0] bg-white">
+        {/* Card Header */}
+        <div className="border-b border-[#E5E5E5] bg-[#FAFAFA] px-5 py-4">
+          <h2 className="text-base font-semibold text-[#1A1A1A]">
+            Extracted Information
+          </h2>
 
-        <div className="mt-6 grid gap-5 sm:grid-cols-2">
-          <div>
-            <p className="text-sm font-medium text-slate-500">
-              Document Type
-            </p>
-            <p className="mt-1 text-sm text-slate-800">
-              {document.documentType || "-"}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-slate-500">
-              Invoice Number
-            </p>
-            <p className="mt-1 text-sm text-slate-800">
-              {document.invoiceNumber || "-"}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-slate-500">
-              Vendor Name
-            </p>
-            <p className="mt-1 text-sm text-slate-800">
-              {document.vendorName || "-"}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-slate-500">
-              Customer Name
-            </p>
-            <p className="mt-1 text-sm text-slate-800">
-              {document.customerName || "-"}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-slate-500">
-              Date
-            </p>
-            <p className="mt-1 text-sm text-slate-800">
-              {document.date || "-"}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-slate-500">
-              Due Date
-            </p>
-            <p className="mt-1 text-sm text-slate-800">
-              {document.dueDate || "-"}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-slate-500">
-              Subtotal
-            </p>
-            <p className="mt-1 text-sm text-slate-800">
-              {document.subtotal || "-"}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-slate-500">
-              Discount
-            </p>
-            <p className="mt-1 text-sm text-slate-800">
-              {document.discount || "-"}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-slate-500">
-              Shipping Charge
-            </p>
-            <p className="mt-1 text-sm text-slate-800">
-              {document.charges?.shippingCharge || "-"}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-slate-500">
-              Delivery Charge
-            </p>
-            <p className="mt-1 text-sm text-slate-800">
-              {document.charges?.deliveryCharge || "-"}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-slate-500">
-              Insurance Charge
-            </p>
-            <p className="mt-1 text-sm text-slate-800">
-              {document.charges?.insuranceCharge || "-"}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-slate-500">
-              Other Charges
-            </p>
-            <p className="mt-1 text-sm text-slate-800">
-              {document.charges?.otherCharges || "-"}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-slate-500">
-              CGST
-            </p>
-            <p className="mt-1 text-sm text-slate-800">
-              {document.taxes?.cgst?.amount
-                ? `${document.taxes.cgst.amount} (${document.taxes.cgst.rate || "-"})`
-                : "-"}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-slate-500">
-              SGST
-            </p>
-            <p className="mt-1 text-sm text-slate-800">
-              {document.taxes?.sgst?.amount
-                ? `${document.taxes.sgst.amount} (${document.taxes.sgst.rate || "-"})`
-                : "-"}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-slate-500">
-              IGST
-            </p>
-            <p className="mt-1 text-sm text-slate-800">
-              {document.taxes?.igst?.amount
-                ? `${document.taxes.igst.amount} (${document.taxes.igst.rate || "-"})`
-                : "-"}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-slate-500">
-              Other Tax
-            </p>
-            <p className="mt-1 text-sm text-slate-800">
-              {document.taxes?.otherTax?.amount
-                ? `${document.taxes.otherTax.amount} (${document.taxes.otherTax.rate || "-"})`
-                : "-"}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-slate-500">
-              Total Tax
-            </p>
-            <p className="mt-1 text-sm font-semibold text-slate-900">
-              {document.taxes?.totalTax || document.tax || "-"}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-slate-500">
-              Total
-            </p>
-            <p className="mt-1 text-sm font-semibold text-slate-900">
-              {document.total || "-"}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-slate-500">
-              Advance Paid
-            </p>
-            <p className="mt-1 text-sm text-slate-800">
-              {document.payment?.advancePaid || "-"}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-slate-500">
-              Paid Amount
-            </p>
-            <p className="mt-1 text-sm text-slate-800">
-              {document.payment?.paidAmount || "-"}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-slate-500">
-              Due Amount
-            </p>
-            <p className="mt-1 text-sm text-slate-800">
-              {document.payment?.dueAmount || "-"}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm font-medium text-slate-500">
-              Payment Method
-            </p>
-            <p className="mt-1 text-sm text-slate-800">
-              {document.payment?.paymentMethod || "-"}
-            </p>
-          </div>
+          <p className="mt-0.5 text-sm text-[#666666]">
+            Information extracted from your uploaded document.
+          </p>
         </div>
 
-        <div className="mt-8 border-t border-gray-200 pt-6">
-          <h3 className="font-semibold text-slate-800">
-            File Information
-          </h3>
+        <div className="p-5">
+          {/* Document Information */}
+          <section>
+            <h3 className="text-sm font-semibold text-[#1A1A1A]">
+              Document Information
+            </h3>
 
-          <div className="mt-4 space-y-3 text-sm">
-            <p>
-              <span className="font-medium text-slate-700">
-                File Name:
-              </span>{" "}
-              <span className="text-slate-600">
-                {document.originalName || "-"}
-              </span>
-            </p>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <DetailItem
+                label="Document Type"
+                value={document.documentType}
+              />
 
-            <p>
-              <span className="font-medium text-slate-700">
-                File Type:
-              </span>{" "}
-              <span className="text-slate-600">
-                {document.fileType || "-"}
-              </span>
-            </p>
+              <DetailItem
+                label="Invoice Number"
+                value={document.invoiceNumber}
+              />
 
-            <p>
-              <span className="font-medium text-slate-700">
-                File Size:
-              </span>{" "}
-              <span className="text-slate-600">
-                {document.fileSize
-                  ? `${document.fileSize} bytes`
-                  : "-"}
-              </span>
-            </p>
-          </div>
+              <DetailItem
+                label="Vendor Name"
+                value={document.vendorName}
+              />
+
+              <DetailItem
+                label="Customer Name"
+                value={document.customerName}
+              />
+
+              <DetailItem
+                label="Date"
+                value={document.date}
+              />
+
+              <DetailItem
+                label="Due Date"
+                value={document.dueDate}
+              />
+            </div>
+          </section>
+
+          {/* Amounts */}
+          <section className="mt-7 border-t border-[#EEEEEE] pt-6">
+            <h3 className="text-sm font-semibold text-[#1A1A1A]">
+              Amounts
+            </h3>
+
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <DetailItem
+                label="Subtotal"
+                value={document.subtotal}
+              />
+
+              <DetailItem
+                label="Discount"
+                value={document.discount}
+              />
+
+              <DetailItem
+                label="Total"
+                value={document.total}
+                strong
+              />
+            </div>
+          </section>
+
+          {/* Charges */}
+          <section className="mt-7 border-t border-[#EEEEEE] pt-6">
+            <h3 className="text-sm font-semibold text-[#1A1A1A]">
+              Charges
+            </h3>
+
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <DetailItem
+                label="Shipping Charge"
+                value={document.charges?.shippingCharge}
+              />
+
+              <DetailItem
+                label="Delivery Charge"
+                value={document.charges?.deliveryCharge}
+              />
+
+              <DetailItem
+                label="Insurance Charge"
+                value={document.charges?.insuranceCharge}
+              />
+
+              <DetailItem
+                label="Other Charges"
+                value={document.charges?.otherCharges}
+              />
+            </div>
+          </section>
+
+          {/* Taxes */}
+          <section className="mt-7 border-t border-[#EEEEEE] pt-6">
+            <h3 className="text-sm font-semibold text-[#1A1A1A]">
+              GST / Taxes
+            </h3>
+
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <DetailItem
+                label="CGST"
+                value={
+                  document.taxes?.cgst?.amount
+                    ? `${document.taxes.cgst.amount} (${document.taxes.cgst.rate || "-"})`
+                    : "-"
+                }
+              />
+
+              <DetailItem
+                label="SGST"
+                value={
+                  document.taxes?.sgst?.amount
+                    ? `${document.taxes.sgst.amount} (${document.taxes.sgst.rate || "-"})`
+                    : "-"
+                }
+              />
+
+              <DetailItem
+                label="IGST"
+                value={
+                  document.taxes?.igst?.amount
+                    ? `${document.taxes.igst.amount} (${document.taxes.igst.rate || "-"})`
+                    : "-"
+                }
+              />
+
+              <DetailItem
+                label="Other Tax"
+                value={
+                  document.taxes?.otherTax?.amount
+                    ? `${document.taxes.otherTax.amount} (${document.taxes.otherTax.rate || "-"})`
+                    : "-"
+                }
+              />
+
+              <DetailItem
+                label="Total Tax"
+                value={
+                  document.taxes?.totalTax ||
+                  document.tax ||
+                  "-"
+                }
+                strong
+              />
+            </div>
+          </section>
+
+          {/* Payment */}
+          <section className="mt-7 border-t border-[#EEEEEE] pt-6">
+            <h3 className="text-sm font-semibold text-[#1A1A1A]">
+              Payment Information
+            </h3>
+
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <DetailItem
+                label="Advance Paid"
+                value={document.payment?.advancePaid}
+              />
+
+              <DetailItem
+                label="Paid Amount"
+                value={document.payment?.paidAmount}
+              />
+
+              <DetailItem
+                label="Due Amount"
+                value={document.payment?.dueAmount}
+              />
+
+              <DetailItem
+                label="Payment Method"
+                value={document.payment?.paymentMethod}
+              />
+            </div>
+          </section>
+
+          {/* Final Total */}
+          <section className="mt-7 border-t border-[#EEEEEE] pt-6">
+            <div className="flex flex-col gap-3 rounded-lg border border-[#E5E5E5] bg-[#F8F8F8] px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-[#777777]">
+                  Final Total
+                </p>
+
+                <p className="mt-1 text-sm text-[#666666]">
+                  Total amount of this document
+                </p>
+              </div>
+
+              <p className="text-xl font-semibold text-[#C21820]">
+                {document.total || "-"}
+              </p>
+            </div>
+          </section>
+
+          {/* File Information */}
+          <section className="mt-7 border-t border-[#EEEEEE] pt-6">
+            <h3 className="text-sm font-semibold text-[#1A1A1A]">
+              File Information
+            </h3>
+
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <DetailItem
+                label="File Name"
+                value={document.originalName}
+              />
+
+              <DetailItem
+                label="File Type"
+                value={document.fileType}
+              />
+
+              <DetailItem
+                label="File Size"
+                value={
+                  document.fileSize
+                    ? `${document.fileSize} bytes`
+                    : "-"
+                }
+              />
+            </div>
+          </section>
         </div>
       </div>
     </DashboardLayout>
